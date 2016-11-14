@@ -1,7 +1,7 @@
 'use strict';
 
 const log = console;
-const Eriksen = require('./index');
+const Eriksen = require('../index');
 const marshal = new Eriksen('accounts');
 
 marshal.addModel('cassandra', {
@@ -38,7 +38,7 @@ lawyer.configure({
   queue: {
     host: 'localhost',
     port: 6379,
-    messageKey: 'eriksen-dev-meta',
+    queueTransitionKey: 'eriksen-dev-meta',
     queueKey: 'eriksen-dev-bloop'
   },
   logger: { log: log.log, error: log.error, info: log.log }
@@ -91,7 +91,7 @@ promiseModel.configure({
   queue: {
     host: 'localhost',
     port: 6379,
-    messageKey: 'eriksen-dev-meta',
+    queueTransitionKey: 'eriksen-dev-meta',
     queueKey: 'eriksen-dev-bloop-as-promised'
   },
   primary: 'cassandra',
