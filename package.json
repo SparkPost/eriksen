@@ -4,7 +4,7 @@
   "description": "A model-marshalling library for dual-write/single-read data migrations",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/grunt dev-validate"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,14 @@
   "dependencies": {
     "lodash": "^4.16.6",
     "redis": "^2.6.3"
+  },
+  "devDependencies": {
+    "@sparkpost/gruntfile": "^2.0.1",
+    "chai": "^3.5.0",
+    "eslint-config-sparkpost": "^1.2.0",
+    "grunt": "^1.0.1",
+    "proxyquire": "^1.7.10",
+    "sinon": "^1.17.6",
+    "sinon-as-promised": "^4.0.2"
   }
 }
