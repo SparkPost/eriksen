@@ -1,0 +1,7 @@
+test
+.npmrc
+.gitignore
+.eslintrc
+.swp
+.vscode
+Gruntfile.js
