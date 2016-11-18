@@ -15,7 +15,7 @@ describe('Eriksen marshaler', function() {
 
   beforeEach(function() {
     ProxyMock = sinon.stub();
-    Eriksen = proxyquire('../../../eriksen', { './lib/proxy': ProxyMock });
+    Eriksen = proxyquire('../../eriksen', { './lib/proxy': ProxyMock });
     marshal = new Eriksen('burgers');
   });
 
