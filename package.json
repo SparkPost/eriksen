@@ -4,7 +4,7 @@
   "description": "A model-marshalling library for dual-write/single-read data migrations",
   "main": "eriksen.js",
   "scripts": {
-    "test": "./node_modules/.bin/grunt dev-validate"
+    "test": "grunt dev-validate"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
     "grunt": "^1.0.1",
     "proxyquire": "^1.7.10",
     "sinon": "^1.17.6",
-    "sinon-as-promised": "^4.0.2"
+    "sinon-as-promised": "^4.0.2",
+    "sinon-chai": "^2.8.0"
   }
 }
