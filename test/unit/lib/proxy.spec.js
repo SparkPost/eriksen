@@ -4,13 +4,11 @@ const chai = require('chai');
 const expect = chai.expect;
 const sinon = require('sinon');
 const ModelProxy = require('../../../lib/proxy');
-// const proxyquire = require('proxyquire').noCallThru();
+const delay = require('../../delay');
 
 chai.use(require('sinon-chai'));
 
-function delay(ms, result) {
-  return new Promise((resolve) => setTimeout(() => resolve(result), ms));
-}
+
 
 describe('Model proxy service', function() {
 
@@ -61,7 +59,7 @@ describe('Model proxy service', function() {
       secondary: 'b'
     });
 
-    return proxy.get(123).then((result) => delay(500, result)) // delay to wait for async secondary call (:crossedfingers:)
+    return proxy.get(123).then(delay(500)) // delay to wait for async secondary call (:crossedfingers:)
       .then((result) => {
         expect(result).to.equal('a');
         expect(modelA.get).to.have.been.calledWith(123);
@@ -76,7 +74,7 @@ describe('Model proxy service', function() {
       secondary: 'a'
     });
 
-    return proxy.get(123).then((result) => delay(500, result)) // delay to wait for async secondary call (:crossedfingers:)
+    return proxy.get(123).then(delay(500)) // delay to wait for async secondary call (:crossedfingers:)
       .then((result) => {
         expect(result).to.equal('b');
         expect(modelA.get).to.have.been.calledWith(123);
@@ -114,7 +112,7 @@ describe('Model proxy service', function() {
       secondary: false
     });
 
-    return proxy.get().then((result) => delay(500, result))
+    return proxy.get().then(delay(500))
       .then((result) => {
         expect(result).to.equal('a');
         expect(modelA.get).to.have.been.called;
@@ -129,7 +127,7 @@ describe('Model proxy service', function() {
       secondary: 'b'
     });
 
-    return proxy.onlyA().then((result) => delay(500, result))
+    return proxy.onlyA().then(delay(500))
       .then((result) => {
         expect(result).to.equal('a');
         expect(modelA.onlyA).to.have.been.called;
@@ -148,7 +146,7 @@ describe('Model proxy service', function() {
 
     modelB.update.rejects(testError);
 
-    return proxy.update().then((result) => delay(500, result))
+    return proxy.update().then(delay(500))
       .then((result) => {
         expect(result).to.equal('a');
         expect(modelA.update).to.have.been.called;
