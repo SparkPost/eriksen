@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for eriksen/lib/proxy.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">eriksen/lib/</a> proxy.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">90.32% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>28/31</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">72.22% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>13/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>6/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">90.32% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>28/31</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+const _ = require('lodash');
+const defaultOptions = {
+  models: new Map()
+};
+&nbsp;
+class ModelProxy {
+&nbsp;
+  /**
+   * @param {object} opts
+   * @param {Map} opts.models - Map of the model objects
+   * @param {string} opts.primary - name of the primary model
+   * @param {string|boolean} opts.secondary - name of the secondary model or false if no secondary
+   * @param {object} opts.logger - log object (log, info, error)
+   */
+  constructor(opts) {
+    const options = _.merge({}, defaultOptions, opts || <span class="branch-1 cbranch-no" title="branch not covered" >{})</span>;
+&nbsp;
+    // Set primary model on options
+    options.primaryModel = setupModel(options.primary, options.models);
+&nbsp;
+    // Conditionally set secondary model on options
+    options.secondaryModel = setupModel(options.secondary, options.models);
+&nbsp;
+    // Fail if primary and secondary are accidentally the same
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (isEqual(options.primary, options.secondary)) {
+<span class="cstat-no" title="statement not covered" >      throw new Error('Primary and secondary models cannot be the same');</span>
+    }
+&nbsp;
+    // Get methods from own and inherited enumerable properties on primaryModel
+    const methodsToProxy = _.functionsIn(options.primaryModel);
+&nbsp;
+    // Loop over primary methods and attach proxied version to this
+    _.forEach(methodsToProxy, (methodName) =&gt; {
+      this[methodName] = proxify(methodName, options);
+    });
+  }
+}
+&nbsp;
+module.exports = ModelProxy;
+&nbsp;
+/**
+ * Test if 2 items are equal, but only if they are NOT both undefined
+ *
+ * @param {*} a
+ * @param {*} b
+ * @return {boolean}
+ */
+function isEqual(a, b) {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof a === 'undefined' &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >typeof b === 'undefined')</span> {
+<span class="cstat-no" title="statement not covered" >    return false;</span>
+  }
+  return a === b;
+}
+&nbsp;
+/**
+ * Get a model out of the model map, and throw an error if it doesn't exist
+ *
+ * @param {string} name - name of the model to get
+ * @param {Map} models - map to get model from
+ *
+ * @return {object} - the extracted model
+ */
+function setupModel(name, models) {
+  const model = models.get(name);
+&nbsp;
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (name &amp;&amp; !model) {
+<span class="cstat-no" title="statement not covered" >    throw new Error(`Must include model named "${name}" in models passed to proxy`);</span>
+  }
+&nbsp;
+  return model;
+}
+&nbsp;
+/**
+ * Create a new function that calls primary model method, and conditionally, the secondary
+ *
+ * @param {string} method - name of the method to proxy
+ * @param {object} options
+ * @param {string} options.primary - name of the primary model
+ * @param {object} options.primaryModel - primary model object
+ * @param {string|boolean} options.secondary - name of the secondary model or false if no secondary
+ * @param {object|undefined} options.secondaryModel - secondary model object or undefined if no secondary
+ * @param {object} options.logger - object with log, info, error log functions
+ *
+ * @return {function} new proxied function
+ */
+function proxify(method, options) {
+  return function() {
+    const args = (arguments.length === 1) ? [arguments[0]] : Array.apply(null, arguments);
+&nbsp;
+    return callMethod(options.primaryModel, method, args).then((result) =&gt; {
+      if (!options.secondary || !_.isFunction(options.secondaryModel[method])) {
+        return result;
+      }
+&nbsp;
+      // don't return here and swallow errors so that secondary call is non-blocking
+      callMethod(options.secondaryModel, method, args).catch((err) =&gt; {
+        options.logger.error(`[Eriksen] Captured error on secondary model: ${options.secondary}#${method}`, err);
+      });
+&nbsp;
+      return result;
+    });
+  };
+}
+&nbsp;
+function callMethod(model, method, args) {
+  return model[method].apply(model, args);
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Nov 18 2016 18:05:38 GMT-0500 (EST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
