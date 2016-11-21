@@ -1,0 +1,33 @@
+{
+  "name": "eriksen",
+  "version": "1.0.0",
+  "description": "A model-marshalling library for dual-write/single-read data migrations",
+  "main": "eriksen.js",
+  "scripts": {
+    "test": "grunt dev-validate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SparkPost/eriksen.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SparkPost/eriksen/issues"
+  },
+  "homepage": "https://github.com/SparkPost/eriksen#readme",
+  "dependencies": {
+    "lodash": "^4.16.6",
+    "redis": "^2.6.3"
+  },
+  "devDependencies": {
+    "@sparkpost/gruntfile": "^2.0.1",
+    "chai": "^3.5.0",
+    "eslint-config-sparkpost": "^1.2.0",
+    "grunt": "^1.0.1",
+    "proxyquire": "^1.7.10",
+    "sinon": "^1.17.6",
+    "sinon-as-promised": "^4.0.2",
+    "sinon-chai": "^2.8.0"
+  }
+}
