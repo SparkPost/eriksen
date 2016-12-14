@@ -15,6 +15,11 @@ module.exports.updateAccount = (id) => {
   return updateDynamo(id).then((msg) => updateCloudSearch(id, msg));
 };
 
+module.exports.updateAccountHook = (args, result, secondaryModel) => {
+  console.log('here ye, here ye, we overrode a function call');
+  console.log(args, result, secondaryModel);
+};
+
 const updateDynamo = (id) => {
   return new Promise((resolve, reject) => {
     const message = `aws | updateTable1 | ${id}`;
