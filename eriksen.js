@@ -13,6 +13,7 @@ class Eriksen {
   constructor(name) {
     this.name = name;
     this.models = new Map();
+    this.overrides = new Map();
     this.config = defaultConfig;
   }
 
@@ -24,6 +25,10 @@ class Eriksen {
    */
   addModel(name, model) {
     this.models.set(name, model);
+  }
+
+  override(methodName, callback) {
+    this.overrides.set(methodName, callback);
   }
 
   /**
@@ -45,6 +50,7 @@ class Eriksen {
 
     this.proxy = new ModelProxy({
       models: this.models,
+      overrides: this.overrides,
       primary: this.config.primary,
       secondary: this.config.secondary || false,
       logger: this.config.logger

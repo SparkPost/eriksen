@@ -13,10 +13,11 @@ let writes = 1;
 
 accountMarshal.addModel('cassandra', c_AccountModel);
 accountMarshal.addModel('aws', a_AccountModel);
+accountMarshal.override('updateAccount', a_AccountModel.updateAccountHook);
 
 accountMarshal.configure({
   primary: 'cassandra',
-  secondary: false, //'aws', //'aws', // false or absent to disable secondary actions
+  secondary: 'aws', //'aws', //'aws', // false or absent to disable secondary actions
   logger: { log: console.log, error: console.error, info: console.log }
 });
 
