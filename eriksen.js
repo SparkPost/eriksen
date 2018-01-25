@@ -47,7 +47,8 @@ class Eriksen {
       models: this.models,
       primary: this.config.primary,
       secondary: this.config.secondary || false,
-      logger: this.config.logger
+      logger: this.config.logger,
+      compareResults: this.config.compareResults || false
     });
   }
 
