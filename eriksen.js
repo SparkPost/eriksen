@@ -6,7 +6,8 @@ const defaultConfig = {
   waitTime: 0,
   primary: null,
   queue: false,
-  logger: { log: console.log, info: console.log, error: console.error } // eslint-disable-line no-console
+  logger: { log: console.log, info: console.log, error: console.error }, // eslint-disable-line no-console
+  hideErrorTrace: false
 };
 
 class Eriksen {
@@ -47,7 +48,8 @@ class Eriksen {
       models: this.models,
       primary: this.config.primary,
       secondary: this.config.secondary || false,
-      logger: this.config.logger
+      logger: this.config.logger,
+      hideErrorTrace: this.config.hideErrorTrace      
     });
   }
 
