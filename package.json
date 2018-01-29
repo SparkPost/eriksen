@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/SparkPost/eriksen#readme",
   "dependencies": {
+    "bluebird": "^3.5.1",
     "lodash": "^4.16.6",
     "redis": "^2.6.3"
   },

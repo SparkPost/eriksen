@@ -6,7 +6,8 @@ const defaultConfig = {
   waitTime: 0,
   primary: null,
   queue: false,
-  logger: { log: console.log, info: console.log, error: console.error } // eslint-disable-line no-console
+  logger: { log: console.log, info: console.log, error: console.error }, // eslint-disable-line no-console
+  compareResults: false
 };
 
 class Eriksen {
