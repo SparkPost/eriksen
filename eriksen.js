@@ -49,7 +49,7 @@ class Eriksen {
       primary: this.config.primary,
       secondary: this.config.secondary || false,
       logger: this.config.logger,
-      hideErrorTrace: this.config.hideErrorTrace      
+      hideErrorTrace: this.config.hideErrorTrace
     });
   }
 

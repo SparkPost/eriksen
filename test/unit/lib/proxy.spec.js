@@ -4,19 +4,23 @@ const chai = require('chai');
 const expect = chai.expect;
 const sinon = require('sinon');
 const ModelProxy = require('../../../lib/proxy');
-const delay = require('../../delay');
 
 chai.use(require('sinon-chai'));
-
-
 
 describe('Model proxy service', function() {
 
   let models
     , modelA
-    , modelB;
+    , modelB
+    , clock;
+
+  const delay = (ms) => {
+    clock.tick(ms);
+  };
 
   beforeEach(function() {
+    const currentDate = new Date('2018-03-21T07:52:26-05:00');
+    clock = sinon.useFakeTimers(currentDate.getTime());
     modelA = {
       get: sinon.stub().resolves('a'),
       update: sinon.stub().resolves('a'),
@@ -30,6 +34,10 @@ describe('Model proxy service', function() {
     models = new Map();
     models.set('a', modelA);
     models.set('b', modelB);
+  });
+
+  afterEach(function() {
+    clock.restore();
   });
 
   it('should instantiate a proxy object based on the primary model', function() {
@@ -151,8 +159,31 @@ describe('Model proxy service', function() {
         expect(result).to.equal('a');
         expect(modelA.update).to.have.been.called;
         expect(modelB.update).to.have.been.called;
-        expect(logStub).to.have.been.calledWith('[Eriksen] Captured error on secondary model: b#update', testError);
+        expect(logStub).to.have.been.calledWith('[Eriksen] [t=2018-03-21T12:52:26.500Z] Captured error on secondary model: b#update', testError);
       });
+  });
+
+  it('should hide error trace when option passed in and secondary fails', function() {
+    const logStub = sinon.stub();
+    const testError = new Error('noooope');
+    const proxy = new ModelProxy({
+      models: models,
+      primary: 'a',
+      secondary: 'b',
+      hideErrorTrace: true,
+      logger: { error: logStub }
+    });
+
+    modelB.update.rejects(testError);
+
+    return proxy.update().then(delay(500))
+      .then((result) => {
+        expect(result).to.equal('a');
+        expect(modelA.update).to.have.been.called;
+        expect(modelB.update).to.have.been.called;
+        expect(logStub).to.have.been.calledWith('[Eriksen] [t=2018-03-21T12:52:26.500Z] Captured error on secondary model: b#update', `Error: ${testError.message}`);
+      });
+
   });
 
   it('should fail if the primary call fails', function() {
