@@ -8,14 +8,14 @@ const Eriksen = require('../../eriksen');
 
 chai.use(require('sinon-chai'));
 
-describe('model marshaling process', function() {
+describe('model marshaling process', () => {
 
   let storeA
     , storeB
     , modelA
     , modelB;
 
-  beforeEach(function() {
+  beforeEach(() => {
     storeA = {};
     storeB = {};
     modelA = {
@@ -36,7 +36,7 @@ describe('model marshaling process', function() {
     };
   });
 
-  it('should perform dual writes and single primary reads', function() {
+  it('should perform dual writes and single primary reads', () => {
     const marshal = new Eriksen('regular');
     marshal.addModel('a', modelA);
     marshal.addModel('b', modelB);
@@ -57,7 +57,7 @@ describe('model marshaling process', function() {
       });
   });
 
-  it('should only perform primary reads and writes if secondary is false', function() {
+  it('should only perform primary reads and writes if secondary is false', () => {
     const marshal = new Eriksen('primary-only');
     marshal.addModel('a', modelA);
     marshal.addModel('b', modelB);
@@ -75,7 +75,7 @@ describe('model marshaling process', function() {
       });
   });
 
-  it('should only perform primary reads and writes if secondary method doesn\'t exist', function() {
+  it('should only perform primary reads and writes if secondary method doesn\'t exist', () => {
     const marshal = new Eriksen('secondary-method-missing');
 
     delete modelB.update;
@@ -92,7 +92,7 @@ describe('model marshaling process', function() {
       });
   });
 
-  it('should log if secondary write fails', function() {
+  it('should log if secondary write fails', () => {
     const logStub = { error: sinon.stub() };
     const secondaryError = new Error();
     const marshal = new Eriksen('secondary-failure');
@@ -107,11 +107,30 @@ describe('model marshaling process', function() {
       .then(delay(500))
       .then((result) => {
         expect(result).to.be.undefined;
-        expect(logStub.error).to.have.been.calledWith('[Eriksen] Captured error on secondary model: b#get', secondaryError);
+        expect(logStub.error).to.have.been.calledWithMatch(new RegExp('\\[Eriksen\\].*\\[t=.*\\].*Captured.*b#get'), secondaryError);
       });
   });
 
-  it('shouldn\'t wait for the secondary write to complete before returning', function() {
+  it('should log if secondary write fails but hide stack trace', () => {
+    const logStub = { error: sinon.stub() };
+    const secondaryError = new Error('y u fail?');
+    const marshal = new Eriksen('secondary-failure');
+
+    modelB.get = sinon.stub().rejects(secondaryError);
+
+    marshal.addModel('a', modelA);
+    marshal.addModel('b', modelB);
+    marshal.configure({ primary: 'a', secondary: 'b', logger: logStub, hideErrorTrace: true });
+
+    return marshal.proxy.get('nothing')
+      .then(delay(500))
+      .then((result) => {
+        expect(result).to.be.undefined;
+        expect(logStub.error).to.have.been.calledWithMatch(new RegExp('\\[Eriksen\\].*\\[t=.*\\].*Captured.*b#get'), `Error: ${secondaryError.message}`);
+      });
+  });
+
+  it('shouldn\'t wait for the secondary write to complete before returning', () => {
     const marshal = new Eriksen('secondary-slow');
 
     modelB.update = function(key, value) {

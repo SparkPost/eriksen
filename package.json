@@ -21,7 +21,7 @@
     "redis": "^2.6.3"
   },
   "devDependencies": {
-    "@sparkpost/gruntfile": "^2.0.1",
+    "@sparkpost/gruntfile": "^3.0.0",
     "chai": "^3.5.0",
     "eslint-config-sparkpost": "^1.2.0",
     "grunt": "^1.0.1",

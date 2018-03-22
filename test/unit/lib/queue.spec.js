@@ -5,7 +5,7 @@ const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 
 describe.skip('Queue', () => {
-  var sandbox, redis, schemas, Queue, logStub, queue;
+  let sandbox, redis, schemas, Queue, logStub, queue;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -23,7 +23,7 @@ describe.skip('Queue', () => {
   });
 
   it('should be able to instantiate the queue with error handlers', (done) => {
-    queue.subscriber.on('error', function() {
+    queue.subscriber.on('error', () => {
       expect(logStub.error).to.have.been.called;
       done();
     });
@@ -51,11 +51,9 @@ describe.skip('Queue', () => {
   });
 
   it('should be able to transition queue from active to inactive', () => {
-    queue.drainQueue = () => {
-      return new Promise((resolve) => {
-        resolve(10);
-      });
-    };
+    queue.drainQueue = () => new Promise((resolve) => {
+      resolve(10);
+    });
 
     schemas.test = {
       schema: {
@@ -67,17 +65,15 @@ describe.skip('Queue', () => {
       model: 'test',
       queue: false
     }))
-    .then(() => {
-      expect(schemas.test.schema.queueInProgress).to.be.false;
-    });
+      .then(() => {
+        expect(schemas.test.schema.queueInProgress).to.be.false;
+      });
   });
 
   it('should handle errors from the queue-handler backend', () => {
-    queue.drainQueue = () => {
-      return new Promise((resolve, reject) => {
-        reject(new Error());
-      });
-    };
+    queue.drainQueue = () => new Promise((resolve, reject) => {
+      reject(new Error());
+    });
 
     schemas.test = {
       schema: {
@@ -89,10 +85,10 @@ describe.skip('Queue', () => {
       model: 'test',
       queue: false
     }))
-    .catch(() => {
-      expect(logStub.error).to.have.been.called;
-      expect(schemas.test.schema.queueInProgress).to.be.true;
-    });
+      .catch(() => {
+        expect(logStub.error).to.have.been.called;
+        expect(schemas.test.schema.queueInProgress).to.be.true;
+      });
   });
 
   it('should warn when a queue transition is attempted on an non-defined model', () => {
@@ -120,15 +116,13 @@ describe.skip('Queue', () => {
       }
     };
 
-    queue.getAllQueued = () => {
-      return new Promise((resolve) => {
-        resolve([
-          new Promise((resolve) => { resolve(); }),
-          new Promise((resolve) => { resolve(); }),
-          new Promise((resolve) => { resolve(); })
-        ]);
-      });
-    };
+    queue.getAllQueued = () => new Promise((resolve) => {
+      resolve([
+        new Promise((resolve) => { resolve(); }),
+        new Promise((resolve) => { resolve(); }),
+        new Promise((resolve) => { resolve(); })
+      ]);
+    });
 
     return queue.drainQueue('test')
       .then((count) => {
@@ -146,15 +140,13 @@ describe.skip('Queue', () => {
       }
     };
 
-    queue.getAllQueued = () => {
-      return new Promise((resolve) => {
-        resolve([
-          new Promise((resolve) => { resolve(); }),
-          new Promise((resolve, reject) => { reject(new Error()); }),
-          new Promise((resolve) => { resolve(); })
-        ]);
-      });
-    };
+    queue.getAllQueued = () => new Promise((resolve) => {
+      resolve([
+        new Promise((resolve) => { resolve(); }),
+        new Promise((resolve, reject) => { reject(new Error()); }),
+        new Promise((resolve) => { resolve(); })
+      ]);
+    });
 
     return queue.drainQueue('test')
       .catch((err) => {
@@ -171,7 +163,7 @@ describe.skip('Queue', () => {
         },
         queueInProgress: true
       },
-      isSecondary: (test) => { return test.test === true; },
+      isSecondary: (test) => test.test === true,
       models: new Map([
         ['test', { test: true, model: { test: sinon.stub() }}],
         ['untest', { model: { test: sinon.stub().resolves() }}]
@@ -191,7 +183,7 @@ describe.skip('Queue', () => {
     queue.getQueuedMessage.onCall(5).resolves(null);
     schemas.test.models.get('test').model.test.onCall(3).rejects(new Error());
 
-    let modelPromises = [];
+    const modelPromises = [];
     return queue.getAllQueued('test', 'test', modelPromises)
       .then((allCalls) => {
         expect(allCalls.length).to.equal(5);

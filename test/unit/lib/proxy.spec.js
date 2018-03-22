@@ -7,7 +7,7 @@ const ModelProxy = require('../../../lib/proxy');
 
 chai.use(require('sinon-chai'));
 
-describe('Model proxy service', function() {
+describe('Model proxy service', () => {
 
   let models
     , modelA
@@ -18,7 +18,7 @@ describe('Model proxy service', function() {
     clock.tick(ms);
   };
 
-  beforeEach(function() {
+  beforeEach(() => {
     const currentDate = new Date('2018-03-21T07:52:26-05:00');
     clock = sinon.useFakeTimers(currentDate.getTime());
     modelA = {
@@ -36,11 +36,11 @@ describe('Model proxy service', function() {
     models.set('b', modelB);
   });
 
-  afterEach(function() {
+  afterEach(() => {
     clock.restore();
   });
 
-  it('should instantiate a proxy object based on the primary model', function() {
+  it('should instantiate a proxy object based on the primary model', () => {
     const proxy = new ModelProxy({
       models: models,
       primary: 'a',
@@ -52,7 +52,7 @@ describe('Model proxy service', function() {
     expect(proxy.onlyB).to.not.exist;
   });
 
-  it('should instantiate an object with no proxied methods if no config is passed', function() {
+  it('should instantiate an object with no proxied methods if no config is passed', () => {
     const proxy = new ModelProxy();
     expect(proxy.get).to.not.exist;
     expect(proxy.update).to.not.exist;
@@ -60,7 +60,7 @@ describe('Model proxy service', function() {
     expect(proxy.onlyB).to.not.exist;
   });
 
-  it('should call both primary and secondary methods', function() {
+  it('should call both primary and secondary methods', () => {
     const proxy = new ModelProxy({
       models: models,
       primary: 'a',
@@ -75,7 +75,7 @@ describe('Model proxy service', function() {
       });
   });
 
-  it('should return the correct result if the primary is switched', function() {
+  it('should return the correct result if the primary is switched', () => {
     const proxy = new ModelProxy({
       models: models,
       primary: 'b',
@@ -90,7 +90,7 @@ describe('Model proxy service', function() {
       });
   });
 
-  it('should throw an error if primary and secondary are the same', function() {
+  it('should throw an error if primary and secondary are the same', () => {
     expect(() => new ModelProxy({
       models: models,
       primary: 'a',
@@ -98,14 +98,14 @@ describe('Model proxy service', function() {
     })).to.throw('Primary and secondary models cannot be the same');
   });
 
-  it('should throw an error if primary is not in models', function() {
+  it('should throw an error if primary is not in models', () => {
     expect(() => new ModelProxy({
       models: models,
       primary: 'primary not here'
     })).to.throw('Must include model named "primary not here" in models passed to proxy');
   });
 
-  it('should throw an error if secondary is not in models', function() {
+  it('should throw an error if secondary is not in models', () => {
     expect(() => new ModelProxy({
       models: models,
       primary: 'a',
@@ -113,7 +113,7 @@ describe('Model proxy service', function() {
     })).to.throw('Must include model named "secondary not here" in models passed to proxy');
   });
 
-  it('should only call primary method if secondary mode is false', function() {
+  it('should only call primary method if secondary mode is false', () => {
     const proxy = new ModelProxy({
       models: models,
       primary: 'a',
@@ -128,7 +128,7 @@ describe('Model proxy service', function() {
       });
   });
 
-  it('should skip a secondary call if method doesn\'t exist on secondary model', function() {
+  it('should skip a secondary call if method doesn\'t exist on secondary model', () => {
     const proxy = new ModelProxy({
       models: models,
       primary: 'a',
@@ -142,7 +142,7 @@ describe('Model proxy service', function() {
       });
   });
 
-  it('should return successfully but log if secondary call fails', function() {
+  it('should return successfully but log if secondary call fails', () => {
     const logStub = sinon.stub();
     const testError = new Error('noooope');
     const proxy = new ModelProxy({
@@ -163,7 +163,7 @@ describe('Model proxy service', function() {
       });
   });
 
-  it('should hide error trace when option passed in and secondary fails', function() {
+  it('should hide error trace when option passed in and secondary fails', () => {
     const logStub = sinon.stub();
     const testError = new Error('noooope');
     const proxy = new ModelProxy({
@@ -186,7 +186,7 @@ describe('Model proxy service', function() {
 
   });
 
-  it('should fail if the primary call fails', function() {
+  it('should fail if the primary call fails', () => {
     const testError = new Error('noooope');
     const proxy = new ModelProxy({
       models: models,
