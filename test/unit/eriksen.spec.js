@@ -62,7 +62,8 @@ describe('Eriksen marshaler', function() {
       models: marshal.models,
       primary: 'a',
       secondary: false,
-      logger: marshal.config.logger
+      logger: marshal.config.logger,
+      hideErrorTrace: false
     });
   });
 
@@ -134,7 +135,8 @@ describe('Eriksen marshaler', function() {
       models: marshal.models,
       primary: 'a',
       secondary: false,
-      logger: marshal.config.logger
+      logger: marshal.config.logger,
+      hideErrorTrace: false
     });
   });
 
