@@ -64,6 +64,7 @@ describe('Eriksen marshaler', () => {
     });
   });
 
+
   it('should throw an error if primary is not set', () => {
     expect(() => marshal.configure()).to.throw('Must specify a primary model');
   });
