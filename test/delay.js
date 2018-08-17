@@ -12,3 +12,4 @@ module.exports = function delay(ms) {
   return (result) =>
     new Promise((resolve) => setTimeout(() => resolve(result), ms));
 };
+
