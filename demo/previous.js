@@ -24,8 +24,22 @@ accountMarshal.configure({
 });
 
 for (let i = 0; i < loops; i++) {
-  setTimeout(() => accountMarshal.getAccount(i + 100).then(logRead).catch(logRead), Math.max(Math.random() * 10000, 10000));
-  setTimeout(() => accountMarshal.updateAccount(i + 100).then(logWrite).catch(logWrite), Math.max(Math.random() * 10000, 10000));
+  setTimeout(
+    () =>
+      accountMarshal
+        .getAccount(i + 100)
+        .then(logRead)
+        .catch(logRead),
+    Math.max(Math.random() * 10000, 10000)
+  );
+  setTimeout(
+    () =>
+      accountMarshal
+        .updateAccount(i + 100)
+        .then(logWrite)
+        .catch(logWrite),
+    Math.max(Math.random() * 10000, 10000)
+  );
 }
 
 function logRead(result) {
@@ -37,7 +51,6 @@ function logRead(result) {
       process.exit(0);
     }
   } else {
-
   }
 }
 

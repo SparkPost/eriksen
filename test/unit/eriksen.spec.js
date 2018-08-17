@@ -8,10 +8,7 @@ const proxyquire = require('proxyquire').noCallThru();
 chai.use(require('sinon-chai'));
 
 describe('Eriksen marshaler', () => {
-
-  let ProxyMock
-    , Eriksen
-    , marshal;
+  let ProxyMock, Eriksen, marshal;
 
   beforeEach(() => {
     ProxyMock = sinon.stub();
@@ -72,12 +69,16 @@ describe('Eriksen marshaler', () => {
   });
 
   it('should throw an error if primary has not been added', () => {
-    expect(() => marshal.configure({ primary: 'whatev' })).to.throw('"whatev" must have been added via addModel()');
+    expect(() => marshal.configure({ primary: 'whatev' })).to.throw(
+      '"whatev" must have been added via addModel()'
+    );
   });
 
   it('should throw an error if secondary is set, but has not been added', () => {
     marshal.addModel('a', {});
-    expect(() => marshal.configure({ primary: 'a', secondary: 'b' })).to.throw('"b" must have been added via addModel()');
+    expect(() => marshal.configure({ primary: 'a', secondary: 'b' })).to.throw(
+      '"b" must have been added via addModel()'
+    );
   });
 
   it('should not mind if secondary is not set at all', () => {
@@ -94,5 +95,4 @@ describe('Eriksen marshaler', () => {
       hideErrorTrace: false
     });
   });
-
 });

@@ -23,8 +23,18 @@ accountMarshal.configure({
 const proxy = accountMarshal.proxy;
 
 for (let i = 0; i < loops; i++) {
-  delayCall(() => proxy.getAccount(i + 100).then(logRead).catch(logRead));
-  delayCall(() => proxy.updateAccount(i + 100).then(logWrite).catch(logWrite));
+  delayCall(() =>
+    proxy
+      .getAccount(i + 100)
+      .then(logRead)
+      .catch(logRead)
+  );
+  delayCall(() =>
+    proxy
+      .updateAccount(i + 100)
+      .then(logWrite)
+      .catch(logWrite)
+  );
 }
 
 function logRead(result) {
@@ -36,7 +46,6 @@ function logRead(result) {
       process.exit(0);
     }
   } else {
-
   }
 }
 

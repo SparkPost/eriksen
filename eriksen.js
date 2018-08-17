@@ -39,7 +39,10 @@ class Eriksen {
     this.config = _.merge({}, this.config, config || {});
 
     // bow before the gods of cyclomatic complexity
-    this.validateRequiredModel(this.config.primary, 'Must specify a primary model');
+    this.validateRequiredModel(
+      this.config.primary,
+      'Must specify a primary model'
+    );
     this.validateOptionalModel(this.config.secondary);
 
     this.proxy = new ModelProxy({

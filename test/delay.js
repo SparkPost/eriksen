@@ -9,6 +9,6 @@
  * callPromise().then(delay(500)).then(otherStuff);
  */
 module.exports = function delay(ms) {
-  return (result) => new Promise((resolve) => setTimeout(() => resolve(result), ms));
+  return (result) =>
+    new Promise((resolve) => setTimeout(() => resolve(result), ms));
 };
-
