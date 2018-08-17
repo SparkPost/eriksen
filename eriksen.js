@@ -3,9 +3,7 @@
 const _ = require('lodash');
 const ModelProxy = require('./lib/proxy');
 const defaultConfig = {
-  waitTime: 0,
   primary: null,
-  queue: false,
   logger: { log: console.log, info: console.log, error: console.error }, // eslint-disable-line no-console
   hideErrorTrace: false
 };
