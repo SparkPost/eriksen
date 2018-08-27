@@ -1,4 +1,5 @@
 # Eriksen
+[![Build Status](https://travis-ci.org/SparkPost/eriksen.svg?branch=master)](https://travis-ci.org/SparkPost/eriksen)
 
 Eriksen is a model factory that makes it easy to write model code that retrieves
 or saves data to multiple, configurable places.  It's main job is to
