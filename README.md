@@ -6,6 +6,12 @@ or saves data to multiple, configurable places.  It's main job is to
 and swappable backend, allowing for a separation that preserves an interface even
 when the backend data storage system changes.
 
+## Installation
+
+```
+npm i eriksen
+```
+
 ## Why?
 
 Eriksen is useful when you're writing code that may change database backends, or
