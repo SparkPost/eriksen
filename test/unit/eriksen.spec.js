@@ -8,10 +8,7 @@ const proxyquire = require('proxyquire').noCallThru();
 chai.use(require('sinon-chai'));
 
 describe('Eriksen marshaler', () => {
-
-  let ProxyMock
-    , Eriksen
-    , marshal;
+  let ProxyMock, Eriksen, marshal;
 
   beforeEach(() => {
     ProxyMock = sinon.stub();
@@ -67,62 +64,21 @@ describe('Eriksen marshaler', () => {
     });
   });
 
-  it.skip('should be able to switch primary and secondary models', () => {
-    let proxyConfig;
-
-    marshal.addModel('a', {});
-    marshal.addModel('b', {});
-
-    marshal.configure({
-      primary: 'a',
-      secondary: 'b'
-    });
-
-    expect(ProxyMock.callCount).to.equal(1);
-    proxyConfig = ProxyMock.firstCall.args[0];
-
-    expect(marshal.config.primary).to.equal('a');
-    expect(marshal.config.secondary).to.equal('b');
-    expect(proxyConfig.primary).to.equal('a');
-    expect(proxyConfig.secondary).to.equal('b');
-
-    marshal.switch();
-
-    expect(ProxyMock.callCount).to.equal(2);
-    proxyConfig = ProxyMock.secondCall.args[0];
-
-    expect(marshal.config.primary, 'after switch, marshal.config.primary').to.equal('b');
-    expect(marshal.config.secondary, 'after switch, marshal.config.secondary').to.equal('a');
-    expect(proxyConfig.primary, 'after switch, mock proxy primary').to.equal('b');
-    expect(proxyConfig.secondary, 'after switch, mock proxy secondary').to.equal('a');
-  });
-
-  it.skip('should throw an error when trying to switch models and secondary is false', () => {
-    marshal.addModel('a', {});
-    marshal.addModel('b', {});
-
-    marshal.configure({
-      primary: 'a',
-      secondary: false
-    });
-
-    expect(ProxyMock.callCount).to.equal(1);
-    expect(() => marshal.switch()).to.throw('Can\'t switch models when secondary is false');
-    expect(marshal.config.primary, 'no switch').to.equal('a');
-    expect(ProxyMock.callCount, 'no new proxy created').to.equal(1);
-  });
-
   it('should throw an error if primary is not set', () => {
     expect(() => marshal.configure()).to.throw('Must specify a primary model');
   });
 
   it('should throw an error if primary has not been added', () => {
-    expect(() => marshal.configure({ primary: 'whatev' })).to.throw('"whatev" must have been added via addModel()');
+    expect(() => marshal.configure({ primary: 'whatev' })).to.throw(
+      '"whatev" must have been added via addModel()'
+    );
   });
 
   it('should throw an error if secondary is set, but has not been added', () => {
     marshal.addModel('a', {});
-    expect(() => marshal.configure({ primary: 'a', secondary: 'b' })).to.throw('"b" must have been added via addModel()');
+    expect(() => marshal.configure({ primary: 'a', secondary: 'b' })).to.throw(
+      '"b" must have been added via addModel()'
+    );
   });
 
   it('should not mind if secondary is not set at all', () => {
@@ -139,5 +95,4 @@ describe('Eriksen marshaler', () => {
       hideErrorTrace: false
     });
   });
-
 });

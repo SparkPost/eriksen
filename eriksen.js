@@ -3,9 +3,7 @@
 const _ = require('lodash');
 const ModelProxy = require('./lib/proxy');
 const defaultConfig = {
-  waitTime: 0,
   primary: null,
-  queue: false,
   logger: { log: console.log, info: console.log, error: console.error }, // eslint-disable-line no-console
   hideErrorTrace: false
 };
@@ -41,7 +39,10 @@ class Eriksen {
     this.config = _.merge({}, this.config, config || {});
 
     // bow before the gods of cyclomatic complexity
-    this.validateRequiredModel(this.config.primary, 'Must specify a primary model');
+    this.validateRequiredModel(
+      this.config.primary,
+      'Must specify a primary model'
+    );
     this.validateOptionalModel(this.config.secondary);
 
     this.proxy = new ModelProxy({

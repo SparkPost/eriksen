@@ -9,11 +9,7 @@ const Eriksen = require('../../eriksen');
 chai.use(require('sinon-chai'));
 
 describe('model marshaling process', () => {
-
-  let storeA
-    , storeB
-    , modelA
-    , modelB;
+  let storeA, storeB, modelA, modelB;
 
   beforeEach(() => {
     storeA = {};
@@ -46,7 +42,8 @@ describe('model marshaling process', () => {
       secondary: 'b'
     });
 
-    return marshal.proxy.update('fruit', 'banana')
+    return marshal.proxy
+      .update('fruit', 'banana')
       .then((result) => {
         expect(result).to.equal('a updated');
         return marshal.proxy.get('fruit');
@@ -67,12 +64,11 @@ describe('model marshaling process', () => {
       secondary: false
     });
 
-    return marshal.proxy.update('sandwich', 'hotdog')
-      .then((result) => {
-        expect(result).to.equal('a updated');
-        expect(storeA.sandwich).to.equal('a: hotdog');
-        expect(storeB.sandwich).to.be.undefined;
-      });
+    return marshal.proxy.update('sandwich', 'hotdog').then((result) => {
+      expect(result).to.equal('a updated');
+      expect(storeA.sandwich).to.equal('a: hotdog');
+      expect(storeB.sandwich).to.be.undefined;
+    });
   });
 
   it('should only perform primary reads and writes if secondary method doesn\'t exist', () => {
@@ -84,12 +80,11 @@ describe('model marshaling process', () => {
     marshal.addModel('b', modelB);
     marshal.configure({ primary: 'a', secondary: 'b' });
 
-    return marshal.proxy.update('color', 'purple')
-      .then((result) => {
-        expect(result).to.equal('a updated');
-        expect(storeA.color).to.equal('a: purple');
-        expect(storeB.color).to.be.undefined;
-      });
+    return marshal.proxy.update('color', 'purple').then((result) => {
+      expect(result).to.equal('a updated');
+      expect(storeA.color).to.equal('a: purple');
+      expect(storeB.color).to.be.undefined;
+    });
   });
 
   it('should log if secondary write fails', () => {
@@ -103,11 +98,15 @@ describe('model marshaling process', () => {
     marshal.addModel('b', modelB);
     marshal.configure({ primary: 'a', secondary: 'b', logger: logStub });
 
-    return marshal.proxy.get('nothing')
+    return marshal.proxy
+      .get('nothing')
       .then(delay(500))
       .then((result) => {
         expect(result).to.be.undefined;
-        expect(logStub.error).to.have.been.calledWithMatch(new RegExp('\\[Eriksen\\].*\\[t=.*\\].*Captured.*b#get'), secondaryError);
+        expect(logStub.error).to.have.been.calledWithMatch(
+          new RegExp('\\[Eriksen\\].*\\[t=.*\\].*Captured.*b#get'),
+          secondaryError
+        );
       });
   });
 
@@ -120,13 +119,22 @@ describe('model marshaling process', () => {
 
     marshal.addModel('a', modelA);
     marshal.addModel('b', modelB);
-    marshal.configure({ primary: 'a', secondary: 'b', logger: logStub, hideErrorTrace: true });
+    marshal.configure({
+      primary: 'a',
+      secondary: 'b',
+      logger: logStub,
+      hideErrorTrace: true
+    });
 
-    return marshal.proxy.get('nothing')
+    return marshal.proxy
+      .get('nothing')
       .then(delay(500))
       .then((result) => {
         expect(result).to.be.undefined;
-        expect(logStub.error).to.have.been.calledWithMatch(new RegExp('\\[Eriksen\\].*\\[t=.*\\].*Captured.*b#get'), `Error: ${secondaryError.message}`);
+        expect(logStub.error).to.have.been.calledWithMatch(
+          new RegExp('\\[Eriksen\\].*\\[t=.*\\].*Captured.*b#get'),
+          `Error: ${secondaryError.message}`
+        );
       });
   });
 
@@ -144,7 +152,8 @@ describe('model marshaling process', () => {
     marshal.addModel('b', modelB);
     marshal.configure({ primary: 'a', secondary: 'b' });
 
-    return marshal.proxy.update('food', 'molasses')
+    return marshal.proxy
+      .update('food', 'molasses')
       .then((result) => {
         expect(result).to.equal('a updated');
         expect(storeA.food).to.equal('a: molasses');
@@ -155,5 +164,4 @@ describe('model marshaling process', () => {
         expect(storeB.food).to.equal('b: molasses');
       });
   });
-
 });

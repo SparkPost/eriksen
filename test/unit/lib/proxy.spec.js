@@ -7,18 +7,13 @@ const ModelProxy = require('../../../lib/proxy');
 
 chai.use(require('sinon-chai'));
 
-(['model', 'class']).forEach((model) => {
+['model', 'class'].forEach((model) => {
   describe(`Model proxy service for a [${model}]`, () => {
-
-    let models
-      , modelA
-      , modelB
-      , clock;
+    let models, modelA, modelB, clock;
 
     const delay = (ms) => {
       clock.tick(ms);
     };
-
 
     beforeEach(() => {
       const currentDate = new Date('2018-03-21T07:52:26-05:00');
@@ -35,21 +30,17 @@ chai.use(require('sinon-chai'));
       };
 
       class ModelAsClass {
-        get() {
-        }
+        get() {}
 
-        update() {
-        }
+        update() {}
       }
 
       class ModelAsClassA extends ModelAsClass {
-        onlyA() {
-        }
+        onlyA() {}
       }
 
       class ModelAsClassB extends ModelAsClass {
-        onlyB() {
-        }
+        onlyB() {}
       }
 
       sinon.stub(ModelAsClassA.prototype, 'get').resolves('a');
@@ -98,7 +89,9 @@ chai.use(require('sinon-chai'));
         secondary: 'b'
       });
 
-      return proxy.get(123).then(delay(500)) // delay to wait for async secondary call (:crossedfingers:)
+      return proxy
+        .get(123)
+        .then(delay(500)) // delay to wait for async secondary call (:crossedfingers:)
         .then((result) => {
           expect(result).to.equal('a');
           expect(modelA.get).to.have.been.calledWith(123);
@@ -113,7 +106,9 @@ chai.use(require('sinon-chai'));
         secondary: 'a'
       });
 
-      return proxy.get(123).then(delay(500)) // delay to wait for async secondary call (:crossedfingers:)
+      return proxy
+        .get(123)
+        .then(delay(500)) // delay to wait for async secondary call (:crossedfingers:)
         .then((result) => {
           expect(result).to.equal('b');
           expect(modelA.get).to.have.been.calledWith(123);
@@ -122,26 +117,39 @@ chai.use(require('sinon-chai'));
     });
 
     it('should throw an error if primary and secondary are the same', () => {
-      expect(() => new ModelProxy({
-        models: models,
-        primary: 'a',
-        secondary: 'a'
-      })).to.throw('Primary and secondary models cannot be the same');
+      expect(
+        () =>
+          new ModelProxy({
+            models: models,
+            primary: 'a',
+            secondary: 'a'
+          })
+      ).to.throw('Primary and secondary models cannot be the same');
     });
 
     it('should throw an error if primary is not in models', () => {
-      expect(() => new ModelProxy({
-        models: models,
-        primary: 'primary not here'
-      })).to.throw('Must include model named "primary not here" in models passed to proxy');
+      expect(
+        () =>
+          new ModelProxy({
+            models: models,
+            primary: 'primary not here'
+          })
+      ).to.throw(
+        'Must include model named "primary not here" in models passed to proxy'
+      );
     });
 
     it('should throw an error if secondary is not in models', () => {
-      expect(() => new ModelProxy({
-        models: models,
-        primary: 'a',
-        secondary: 'secondary not here'
-      })).to.throw('Must include model named "secondary not here" in models passed to proxy');
+      expect(
+        () =>
+          new ModelProxy({
+            models: models,
+            primary: 'a',
+            secondary: 'secondary not here'
+          })
+      ).to.throw(
+        'Must include model named "secondary not here" in models passed to proxy'
+      );
     });
 
     it('should only call primary method if secondary mode is false', () => {
@@ -151,7 +159,9 @@ chai.use(require('sinon-chai'));
         secondary: false
       });
 
-      return proxy.get().then(delay(500))
+      return proxy
+        .get()
+        .then(delay(500))
         .then((result) => {
           expect(result).to.equal('a');
           expect(modelA.get).to.have.been.called;
@@ -166,7 +176,9 @@ chai.use(require('sinon-chai'));
         secondary: 'b'
       });
 
-      return proxy.onlyA().then(delay(500))
+      return proxy
+        .onlyA()
+        .then(delay(500))
         .then((result) => {
           expect(result).to.equal('a');
           expect(modelA.onlyA).to.have.been.called;
@@ -180,17 +192,22 @@ chai.use(require('sinon-chai'));
         models: models,
         primary: 'a',
         secondary: 'b',
-        logger: {error: logStub}
+        logger: { error: logStub }
       });
 
       modelB.update.rejects(testError);
 
-      return proxy.update().then(delay(500))
+      return proxy
+        .update()
+        .then(delay(500))
         .then((result) => {
           expect(result).to.equal('a');
           expect(modelA.update).to.have.been.called;
           expect(modelB.update).to.have.been.called;
-          expect(logStub).to.have.been.calledWith('[Eriksen] [t=2018-03-21T12:52:26.500Z] Captured error on secondary model: b#update', testError);
+          expect(logStub).to.have.been.calledWith(
+            '[Eriksen] [t=2018-03-21T12:52:26.500Z] Captured error on secondary model: b#update',
+            testError
+          );
         });
     });
 
@@ -202,19 +219,23 @@ chai.use(require('sinon-chai'));
         primary: 'a',
         secondary: 'b',
         hideErrorTrace: true,
-        logger: {error: logStub}
+        logger: { error: logStub }
       });
 
       modelB.update.rejects(testError);
 
-      return proxy.update().then(delay(500))
+      return proxy
+        .update()
+        .then(delay(500))
         .then((result) => {
           expect(result).to.equal('a');
           expect(modelA.update).to.have.been.called;
           expect(modelB.update).to.have.been.called;
-          expect(logStub).to.have.been.calledWith('[Eriksen] [t=2018-03-21T12:52:26.500Z] Captured error on secondary model: b#update', `Error: ${testError.message}`);
+          expect(logStub).to.have.been.calledWith(
+            '[Eriksen] [t=2018-03-21T12:52:26.500Z] Captured error on secondary model: b#update',
+            `Error: ${testError.message}`
+          );
         });
-
     });
 
     it('should fail if the primary call fails', () => {
@@ -237,5 +258,4 @@ chai.use(require('sinon-chai'));
       return proxy.update().then(unexpectedSuccess, expectedFail);
     });
   });
-
 });
