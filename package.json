@@ -13,7 +13,7 @@
     "dev": "NODE_ENV=dev nodemon --watch . --ignore ./node_modules -x \"npm start\"",
     "precommit": "lint-staged",
     "prepush": "auditmated",
-    "postpublishOnly": "git push origin master"
+    "postpublish": "git push origin master"
   },
   "lint-staged": {
     "**/*.js": [
