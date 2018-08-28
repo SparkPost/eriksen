@@ -26,39 +26,42 @@ Because Eriksen sits between the code that accesses a backend storage system, th
 allows for Eriksen to log failures for a non-primary backend in the background.
 
 ## Usage
-
-### Instantiate and Configure Eriksen
-
-```
-  let model = new Eriksen('accounts');
-
-  model.addModel('cassandra', cassandraModel);
-  model.addModel('dynamodb', dynamodbModel);
-  model.setPrimary('cassandra');
-```
-
-### Add two models to Eriksen
+This example creates two models in different databases and configures eriksen to use cassandra as the primary and dynamodb as the secondary. It calls the getAllOfTheThings method with cassandra as the primary, meaning if the getAllOfTheThings fails in dynamo, it just logs out the errors, does not fail the call. If the primary fails it will throw an error.
 
 ```
-  let cassandraMapper = {
+  // cassandra model
+  const cassandraMapper = {
     getAllOfTheThings: (name) => {
       return cassandra.query("SELECT ...");
     }
   }
 
-  let dynamoMapper = {
+  // dynamo model
+  const dynamoMapper = {
     getAllOfTheThings: (name) => {
       return aws.dynamodb.DocumentClient(...);
     }
   }
 
-  let Eriksen = require('eriksen');
-  let model = new Eriksen('allThings');
+  const Eriksen = require('eriksen');
+  const model = new Eriksen('allThings');
   model.addModel('cassandra', cassandraMapper);
-  model.addModel('dynamodb', dynamodbMapper);
-  model.setPrimary('cassandra');
+  model.addModel('dynamodb', dynamoMapper);
+  model.configure({
+    primary: cassandraMapper,
+    secondary: dynamoMapper
+  });
 
   function retrieveAllOfTheThings(thingName) {
-    return model.getAllOfTheThings(name);
+    return model.proxy.getAllOfTheThings(name);
   }
+
+  // calling function that calls the eriksen instance to marshall calls
+  retrieveAllOfTheThings('allMyThings')
+    .then((things) => {
+      console.log('list of my things', things);
+    })
+    .catch((err) => {
+      console.log(`it failed ${err.message}`);
+    });
 ```
