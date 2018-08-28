@@ -7,7 +7,7 @@ const primaryModel = require('./lib/primaryModel');
 const secondaryModel = require('./lib/secondaryModel');
 
 // Instantiate eriksen with model name
-const usersModel = new Eriksen('users');
+const modelProxy = new Eriksen('users');
 
 // Demo config vars
 const loops = 3;
@@ -15,28 +15,28 @@ let reads = 1;
 let writes = 1;
 
 // Set model names & paths
-usersModel.addModel('usersModelPrimary', primaryModel);
-usersModel.addModel('usersModelSecondary', secondaryModel);
+modelProxy.addModel('usersModelPrimary', primaryModel);
+modelProxy.addModel('usersModelSecondary', secondaryModel);
 
 // Configure eriksen
-usersModel.configure({
+modelProxy.configure({
   primary: 'usersModelPrimary', // writes & reads
   secondary: 'usersModelSecondary', // only writes, false or absent to disable secondary actions
   logger: { log: console.log, error: console.error, info: console.log }
 });
 
-const proxy = usersModel.proxy;
+const usersModel = modelProxy.proxy;
 
 // Demo loop that calls model methods
 for (let i = 0; i < loops; i++) {
   delayCall(() =>
-    proxy
+    usersModel
       .getUser(i + 100)
       .then(logRead)
       .catch(logRead)
   );
   delayCall(() =>
-    proxy
+    usersModel
       .updateUser(i + 100)
       .then(logWrite)
       .catch(logWrite)
@@ -52,7 +52,6 @@ function logRead(result) {
     if (writes >= loops) {
       process.exit(0);
     }
-  } else {
   }
 }
 
