@@ -1,44 +1,51 @@
 /* eslint-disable */
 'use strict';
 
+// Import eriksen and models
 const Eriksen = require('../eriksen');
-const c_AccountModel = require('./lib/c_accountModel'); // cassandra model
-const a_AccountModel = require('./lib/a_accountModel'); // aws model
+const primaryModel = require('./lib/primaryModel');
+const secondaryModel = require('./lib/secondaryModel');
 
-const accountMarshal = new Eriksen('accounts');
+// Instantiate eriksen with model name
+const usersModel = new Eriksen('users');
+
+// Demo config vars
 const loops = 3;
-
 let reads = 1;
 let writes = 1;
 
-accountMarshal.addModel('cassandra', c_AccountModel);
-accountMarshal.addModel('aws', a_AccountModel);
+// Set model names & paths
+usersModel.addModel('usersModelPrimary', primaryModel);
+usersModel.addModel('usersModelSecondary', secondaryModel);
 
-accountMarshal.configure({
-  primary: 'cassandra',
-  secondary: false, //'aws', //'aws', // false or absent to disable secondary actions
+// Configure eriksen
+usersModel.configure({
+  primary: 'usersModelPrimary', // writes & reads
+  secondary: 'usersModelSecondary', // only writes, false or absent to disable secondary actions
   logger: { log: console.log, error: console.error, info: console.log }
 });
 
-const proxy = accountMarshal.proxy;
+const proxy = usersModel.proxy;
 
+// Demo loop that calls model methods
 for (let i = 0; i < loops; i++) {
   delayCall(() =>
     proxy
-      .getAccount(i + 100)
+      .getUser(i + 100)
       .then(logRead)
       .catch(logRead)
   );
   delayCall(() =>
     proxy
-      .updateAccount(i + 100)
+      .updateUser(i + 100)
       .then(logWrite)
       .catch(logWrite)
   );
 }
 
+// Demo console output for reads
 function logRead(result) {
-  console.log(`READ RESULT ${reads}/${loops} : ${result}`);
+  console.log(`READ RESULT ${reads}/${loops}: ${result}`);
   if (++reads > loops) {
     console.log('READS OVER');
 
@@ -49,8 +56,9 @@ function logRead(result) {
   }
 }
 
+// Demo console output for writes
 function logWrite(result) {
-  console.log(`WRITE RESULT ${writes}/${loops} : ${result}`);
+  console.log(`WRITE RESULT ${writes}/${loops}: ${result}`);
   if (++writes > loops) {
     console.log('WRITES OVER');
 
@@ -60,6 +68,7 @@ function logWrite(result) {
   }
 }
 
+// Random delay
 function delayCall(fn) {
   setTimeout(fn, Math.max(Math.random() * 10000, 10000));
 }
