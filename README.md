@@ -52,8 +52,10 @@ This example creates two models in different databases and configures eriksen to
     secondary: dynamoMapper
   });
 
-  // calling the eriksen instance to Marshall calls
   function retrieveAllOfTheThings(thingName) {
     return model.proxy.getAllOfTheThings(name);
   }
+
+  // calling function that calls the eriksen instance to marshall calls
+  retrieveAllOfTheThings('allMyThings');
 ```
