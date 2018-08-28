@@ -57,5 +57,11 @@ This example creates two models in different databases and configures eriksen to
   }
 
   // calling function that calls the eriksen instance to marshall calls
-  retrieveAllOfTheThings('allMyThings');
+  retrieveAllOfTheThings('allMyThings')
+    .then((things) => {
+      console.log('list of my things', things);
+    })
+    .catch((err) => {
+      console.log(`it failed ${err.message}`);
+    });
 ```
