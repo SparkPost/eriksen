@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Installing deps
+      - npm install
+  build:
+    commands:
+      - echo Build started on `date`
+      - npm test
+      - npm run test:func
+  post_build:
+    commands:
+      - echo Build completed on `date`
